@@ -54,18 +54,17 @@ public class Main {
         Callable<String> strWriter4 = new WriteStringAction(randomUUID8);
         Task<String> writeStringTask4 = new Task<>(randomUUID8, taskGroupB, WRITE, strWriter4);
 
-        TaskExecutor threadGroup1TaskExecutor = new TaskExecutorService(2);
-        TaskExecutor threadGroup2TaskExecutor = new TaskExecutorService(2);
+        TaskExecutor threadGroup1TaskExecutor = new TaskExecutorService(1);
         Future<String> task1Group1 = threadGroup1TaskExecutor.submitTask(readStringTask1);
-        Future<String> task2Group2 = threadGroup2TaskExecutor.submitTask(readStringTask2);
+        Future<String> task2Group2 = threadGroup1TaskExecutor.submitTask(readStringTask2);
         Future<String> task3Group1 = threadGroup1TaskExecutor.submitTask(writeStringTask1);
-        Future<String> task4Group2 = threadGroup2TaskExecutor.submitTask(writeStringTask2);
+        Future<String> task4Group2 = threadGroup1TaskExecutor.submitTask(writeStringTask2);
         Future<String> task5Group1 = threadGroup1TaskExecutor.submitTask(readStringTask3);
-        Future<String> task6Group2 = threadGroup2TaskExecutor.submitTask(readStringTask4);
+        Future<String> task6Group2 = threadGroup1TaskExecutor.submitTask(readStringTask4);
         Future<String> task7Group1 = threadGroup1TaskExecutor.submitTask(writeStringTask3);
-        Future<String> task8Group2 = threadGroup2TaskExecutor.submitTask(writeStringTask4);
+        Future<String> task8Group2 = threadGroup1TaskExecutor.submitTask(writeStringTask4);
 
-        boolean task1Pending = true; 
+        boolean task1Pending = true;
         boolean task2Pending = true;
         boolean task3Pending = true;
         boolean task4Pending = true;
@@ -79,37 +78,37 @@ public class Main {
                 System.out.println(readStringTask1 + " finished " + task1Group1.get());
                 task1Pending = false;
             }
-    
+
             if(task2Group2.isDone() && task2Pending) {
                 System.out.println(readStringTask2 + " finished " + task2Group2.get());
                 task2Pending = false;
             }
-    
+
             if(task3Group1.isDone() && task3Pending) {
                 System.out.println(writeStringTask1 + " finished " + task3Group1.get());
                 task3Pending = false;
             }
-    
+
             if(task4Group2.isDone() && task4Pending) {
                 System.out.println(writeStringTask2 + " finished " + task4Group2.get());
                 task4Pending = false;
             }
-    
+
             if(task5Group1.isDone() && task5Pending) {
                 System.out.println(readStringTask3 + " finished " + task5Group1.get());
                 task5Pending = false;
             }
-    
+
             if(task6Group2.isDone() && task6Pending) {
                 System.out.println(readStringTask4 + " finished " + task6Group2.get());
                 task6Pending = false;
             }
-    
+
             if(task7Group1.isDone() && task7Pending) {
                 System.out.println(writeStringTask3 + " finished " + task7Group1.get());
                 task7Pending = false;
             }
-    
+
             if(task8Group2.isDone() && task8Pending) {
                 System.out.println(writeStringTask4 + " finished " + task8Group2.get());
                 task8Pending = false;
