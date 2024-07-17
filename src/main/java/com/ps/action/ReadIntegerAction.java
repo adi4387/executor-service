@@ -2,10 +2,10 @@ package com.ps.action;
 
 import java.util.concurrent.Callable;
 
-public record ReadStringAction(String key) implements Callable<String> {
+public record ReadIntegerAction(Integer key) implements Callable<Integer> {
 
     @Override
-    public String call() throws Exception {
+    public Integer call() throws Exception {
         System.out.println(Thread.currentThread().getName() + " reading " + key);
         Thread.sleep(1000);
         return key;

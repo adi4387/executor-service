@@ -1,118 +1,110 @@
 package com.ps;
 
-import static com.ps.task.TaskType.READ;
-import static com.ps.task.TaskType.WRITE;
-import static java.util.UUID.randomUUID;
-
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-
+import com.ps.action.ReadIntegerAction;
 import com.ps.action.ReadStringAction;
+import com.ps.action.WriteIntegerAction;
 import com.ps.action.WriteStringAction;
 import com.ps.task.Task;
 import com.ps.task.TaskExecutor;
 import com.ps.task.TaskExecutorService;
 import com.ps.task.TaskGroup;
 
+import java.util.concurrent.*;
+
+import static com.ps.task.TaskType.READ;
+import static com.ps.task.TaskType.WRITE;
+import static java.util.UUID.randomUUID;
+
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         TaskGroup taskGroupA = new TaskGroup(randomUUID());
         TaskGroup taskGroupB = new TaskGroup(randomUUID());
 
-        UUID randomUUID1 = randomUUID();
-        Callable<String> strReader1 = new ReadStringAction(randomUUID1);
-        Task<String> readStringTask1 = new Task<>(randomUUID1, taskGroupA, READ, strReader1);
+        Callable<String> strReader1 = new ReadStringAction("task1Group1");
+        Task<String> readStringTask1 = new Task<>(randomUUID(), taskGroupA, READ, strReader1);
 
-        UUID randomUUID2 = randomUUID();
-        Callable<String> strReader2 = new ReadStringAction(randomUUID2);
-        Task<String> readStringTask2 = new Task<>(randomUUID2, taskGroupB, READ, strReader2);
+        Callable<String> strReader2 = new ReadStringAction("task2Group2");
+        Task<String> readStringtask2 = new Task<>(randomUUID(), taskGroupB, READ, strReader2);
         
-        UUID randomUUID3 = randomUUID();
-        Callable<String> strReader3 = new ReadStringAction(randomUUID3);
-        Task<String> readStringTask3 = new Task<>(randomUUID3, taskGroupA, READ, strReader3);
+        Callable<String> strReader3 = new ReadStringAction("task3Group1");
+        Task<String> readStringTask3 = new Task<>(randomUUID(), taskGroupA, READ, strReader3);
 
-        UUID randomUUID4 = randomUUID();
-        Callable<String> strReader4 = new ReadStringAction(randomUUID4);
-        Task<String> readStringTask4 = new Task<>(randomUUID4, taskGroupB, READ, strReader4);
+        Callable<String> strReader4 = new ReadStringAction("task4Group2");
+        Task<String> readStringTask4 = new Task<>(randomUUID(), taskGroupB, READ, strReader4);
 
-        UUID randomUUID5 = randomUUID();
-        Callable<String> strWriter1 = new WriteStringAction(randomUUID5);
-        Task<String> writeStringTask1 = new Task<>(randomUUID5, taskGroupA, WRITE, strWriter1);
+        Callable<String> strWriter1 = new WriteStringAction("task5Group1");
+        Task<String> writeStringTask5 = new Task<>(randomUUID(), taskGroupA, WRITE, strWriter1);
 
-        UUID randomUUID6 = randomUUID();
-        Callable<String> strWriter2 = new WriteStringAction(randomUUID6);
-        Task<String> writeStringTask2 = new Task<>(randomUUID6, taskGroupB, WRITE, strWriter2);
+        Callable<String> strWriter2 = new WriteStringAction("task6Group2");
+        Task<String> writeStringTask6 = new Task<>(randomUUID(), taskGroupB, WRITE, strWriter2);
 
-        UUID randomUUID7 = randomUUID();
-        Callable<String> strWriter3 = new WriteStringAction(randomUUID7);
-        Task<String> writeStringTask3 = new Task<>(randomUUID7, taskGroupA, WRITE, strWriter3);
+        Callable<String> strWriter3 = new WriteStringAction("task7Group1");
+        Task<String> writeStringTask7 = new Task<>(randomUUID(), taskGroupA, WRITE, strWriter3);
 
-        UUID randomUUID8 = randomUUID();
-        Callable<String> strWriter4 = new WriteStringAction(randomUUID8);
-        Task<String> writeStringTask4 = new Task<>(randomUUID8, taskGroupB, WRITE, strWriter4);
+        Callable<String> strWriter4 = new WriteStringAction("task8Group2");
+        Task<String> writeStringTask8 = new Task<>(randomUUID(), taskGroupB, WRITE, strWriter4);
 
-        TaskExecutor threadGroup1TaskExecutor = new TaskExecutorService(1);
-        Future<String> task1Group1 = threadGroup1TaskExecutor.submitTask(readStringTask1);
-        Future<String> task2Group2 = threadGroup1TaskExecutor.submitTask(readStringTask2);
-        Future<String> task3Group1 = threadGroup1TaskExecutor.submitTask(writeStringTask1);
-        Future<String> task4Group2 = threadGroup1TaskExecutor.submitTask(writeStringTask2);
-        Future<String> task5Group1 = threadGroup1TaskExecutor.submitTask(readStringTask3);
-        Future<String> task6Group2 = threadGroup1TaskExecutor.submitTask(readStringTask4);
-        Future<String> task7Group1 = threadGroup1TaskExecutor.submitTask(writeStringTask3);
-        Future<String> task8Group2 = threadGroup1TaskExecutor.submitTask(writeStringTask4);
+        Callable<Integer> intReader1 = new ReadIntegerAction(91);
+        Task<Integer> readIntegerTask9 = new Task<>(randomUUID(), taskGroupA, READ, intReader1);
 
-        boolean task1Pending = true;
-        boolean task2Pending = true;
-        boolean task3Pending = true;
-        boolean task4Pending = true;
-        boolean task5Pending = true;
-        boolean task6Pending = true;
-        boolean task7Pending = true;
-        boolean task8Pending = true;
+        Callable<Integer> intReader2 = new ReadIntegerAction(102);
+        Task<Integer> readIntegerTask10 = new Task<>(randomUUID(), taskGroupA, READ, intReader2);
 
-        while(true) {
-            if(task1Group1.isDone() && task1Pending) {
-                System.out.println(readStringTask1 + " finished " + task1Group1.get());
-                task1Pending = false;
-            }
+        Callable<Integer> intReader3 = new ReadIntegerAction(111);
+        Task<Integer> readIntegerTask11 = new Task<>(randomUUID(), taskGroupA, READ, intReader3);
 
-            if(task2Group2.isDone() && task2Pending) {
-                System.out.println(readStringTask2 + " finished " + task2Group2.get());
-                task2Pending = false;
-            }
+        Callable<Integer> intReader4 = new ReadIntegerAction(122);
+        Task<Integer> readIntegerTask12 = new Task<>(randomUUID(), taskGroupA, READ, intReader4);
 
-            if(task3Group1.isDone() && task3Pending) {
-                System.out.println(writeStringTask1 + " finished " + task3Group1.get());
-                task3Pending = false;
-            }
+        Callable<Integer> intWriter1 = new WriteIntegerAction(131);
+        Task<Integer> writeIntegerTask13 = new Task<>(randomUUID(), taskGroupA, WRITE, intWriter1);
 
-            if(task4Group2.isDone() && task4Pending) {
-                System.out.println(writeStringTask2 + " finished " + task4Group2.get());
-                task4Pending = false;
-            }
+        Callable<Integer> intWriter2 = new WriteIntegerAction(142);
+        Task<Integer> writeIntegerTask14 = new Task<>(randomUUID(), taskGroupB, WRITE, intWriter2);
 
-            if(task5Group1.isDone() && task5Pending) {
-                System.out.println(readStringTask3 + " finished " + task5Group1.get());
-                task5Pending = false;
-            }
+        Callable<Integer> intWriter3 = new WriteIntegerAction(151);
+        Task<Integer> writeIntegerTask15 = new Task<>(randomUUID(), taskGroupA, WRITE, intWriter3);
 
-            if(task6Group2.isDone() && task6Pending) {
-                System.out.println(readStringTask4 + " finished " + task6Group2.get());
-                task6Pending = false;
-            }
+        Callable<Integer> intWriter4 = new WriteIntegerAction(162);
+        Task<Integer> writeIntegerTask16 = new Task<>(randomUUID(), taskGroupB, WRITE, intWriter4);
 
-            if(task7Group1.isDone() && task7Pending) {
-                System.out.println(writeStringTask3 + " finished " + task7Group1.get());
-                task7Pending = false;
-            }
+        TaskExecutor taskExecutor = new TaskExecutorService(2);
+        CompletableFuture<String> task1Group1 = (CompletableFuture<String>) taskExecutor.submitTask(readStringTask1);
+        CompletableFuture<String> task2Group2 = (CompletableFuture<String>) taskExecutor.submitTask(readStringtask2);
+        CompletableFuture<String> task3Group1 = (CompletableFuture<String>) taskExecutor.submitTask(readStringTask3);
+        CompletableFuture<String> task4Group2 = (CompletableFuture<String>) taskExecutor.submitTask(readStringTask4);
+        CompletableFuture<String> task5Group1 = (CompletableFuture<String>) taskExecutor.submitTask(writeStringTask5);
+        CompletableFuture<String> task6Group2 = (CompletableFuture<String>) taskExecutor.submitTask(writeStringTask6);
+        CompletableFuture<String> task7Group1 = (CompletableFuture<String>) taskExecutor.submitTask(writeStringTask7);
+        CompletableFuture<String> task8Group2 = (CompletableFuture<String>) taskExecutor.submitTask(writeStringTask8);
+        CompletableFuture<Integer> task9Group1 = (CompletableFuture<Integer>) taskExecutor.submitTask(readIntegerTask9);
+        CompletableFuture<Integer> task10Group2 = (CompletableFuture<Integer>) taskExecutor.submitTask(readIntegerTask10);
+        CompletableFuture<Integer> task11Group1 = (CompletableFuture<Integer>) taskExecutor.submitTask(readIntegerTask11);
+        CompletableFuture<Integer> task12Group2 = (CompletableFuture<Integer>) taskExecutor.submitTask(readIntegerTask12);
+        CompletableFuture<Integer> task13Group1 = (CompletableFuture<Integer>) taskExecutor.submitTask(writeIntegerTask13);
+        CompletableFuture<Integer> task14Group2 = (CompletableFuture<Integer>) taskExecutor.submitTask(writeIntegerTask14);
+        CompletableFuture<Integer> task15Group1 = (CompletableFuture<Integer>) taskExecutor.submitTask(writeIntegerTask15);
+        CompletableFuture<Integer> task16Group2 = (CompletableFuture<Integer>) taskExecutor.submitTask(writeIntegerTask16);
 
-            if(task8Group2.isDone() && task8Pending) {
-                System.out.println(writeStringTask4 + " finished " + task8Group2.get());
-                task8Pending = false;
-            }
-        }
+        task1Group1.thenAccept(result -> System.out.println("task1Group1 result: " + result));
+        task2Group2.thenAccept(result -> System.out.println("task2Group2 result: " + result));
+        task3Group1.thenAccept(result -> System.out.println("task3Group1 result: " + result));
+        task4Group2.thenAccept(result -> System.out.println("task4Group2 result: " + result));
+        task5Group1.thenAccept(result -> System.out.println("task5Group1 result: " + result));
+        task6Group2.thenAccept(result -> System.out.println("task6Group2 result: " + result));
+        task7Group1.thenAccept(result -> System.out.println("task7Group1 result: " + result));
+        task8Group2.thenAccept(result -> System.out.println("task8Group2 result: " + result));
+        task9Group1.thenAccept(result -> System.out.println("task9Group1 result: " + result));
+        task10Group2.thenAccept(result -> System.out.println("task10Group2 result: " + result));
+        task11Group1.thenAccept(result -> System.out.println("task11Group1 result: " + result));
+        task12Group2.thenAccept(result -> System.out.println("task12Group2 result: " + result));
+        task13Group1.thenAccept(result -> System.out.println("task13Group1 result: " + result));
+        task14Group2.thenAccept(result -> System.out.println("task14Group2 result: " + result));
+        task15Group1.thenAccept(result -> System.out.println("task15Group1 result: " + result));
+        task16Group2.thenAccept(result -> System.out.println("task16Group2 result: " + result));
+        taskExecutor.shutdown();
     }
+
 }

@@ -2,10 +2,10 @@ package com.ps.action;
 
 import java.util.concurrent.Callable;
 
-public record WriteStringAction(String value) implements Callable<String> {
+public record WriteIntegerAction(Integer value) implements Callable<Integer> {
 
     @Override
-    public String call() throws Exception {
+    public Integer call() throws Exception {
         System.out.println(Thread.currentThread().getName() + " writing " + value);
         Thread.sleep(1000);
         return value;
