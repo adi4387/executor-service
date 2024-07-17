@@ -70,7 +70,7 @@ public class Main {
         Callable<Integer> intWriter4 = new WriteIntegerAction(162);
         Task<Integer> writeIntegerTask16 = new Task<>(randomUUID(), taskGroupB, WRITE, intWriter4);
 
-        TaskExecutor taskExecutor = new TaskExecutorService(2);
+        TaskExecutor taskExecutor = new TaskExecutorService(4);
         CompletableFuture<String> task1Group1 = (CompletableFuture<String>) taskExecutor.submitTask(readStringTask1);
         CompletableFuture<String> task2Group2 = (CompletableFuture<String>) taskExecutor.submitTask(readStringtask2);
         CompletableFuture<String> task3Group1 = (CompletableFuture<String>) taskExecutor.submitTask(readStringTask3);
