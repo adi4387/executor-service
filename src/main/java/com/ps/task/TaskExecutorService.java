@@ -36,8 +36,11 @@ public class TaskExecutorService implements TaskExecutor {
                     }
                 }, executorService)
                 .handle((result, ex) -> {
-                    System.out.println(ex.getMessage());
-                    return null;
+                    if(ex != null) {
+                        System.out.println(ex.getMessage());
+                        return null;
+                    }
+                    return result;
                 });
         System.out.println("Adding future task in queue: " + Thread.currentThread().getName() + " for " + task);
         return completableFuture;
