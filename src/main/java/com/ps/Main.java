@@ -50,13 +50,13 @@ public class Main {
         Task<Integer> readIntegerTask9 = new Task<>(randomUUID(), taskGroupA, READ, intReader1);
 
         Callable<Integer> intReader2 = new ReadIntegerAction(102);
-        Task<Integer> readIntegerTask10 = new Task<>(randomUUID(), taskGroupA, READ, intReader2);
+        Task<Integer> readIntegerTask10 = new Task<>(randomUUID(), taskGroupB, READ, intReader2);
 
         Callable<Integer> intReader3 = new ReadIntegerAction(111);
         Task<Integer> readIntegerTask11 = new Task<>(randomUUID(), taskGroupA, READ, intReader3);
 
         Callable<Integer> intReader4 = new ReadIntegerAction(122);
-        Task<Integer> readIntegerTask12 = new Task<>(randomUUID(), taskGroupA, READ, intReader4);
+        Task<Integer> readIntegerTask12 = new Task<>(randomUUID(), taskGroupB, READ, intReader4);
 
         Callable<Integer> intWriter1 = new WriteIntegerAction(131);
         Task<Integer> writeIntegerTask13 = new Task<>(randomUUID(), taskGroupA, WRITE, intWriter1);
