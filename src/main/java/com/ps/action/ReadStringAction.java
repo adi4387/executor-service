@@ -7,7 +7,7 @@ public record ReadStringAction(String key) implements Callable<String> {
     @Override
     public String call() throws Exception {
         System.out.println(Thread.currentThread().getName() + " reading " + key);
-        Thread.sleep(5000);
+        Thread.sleep(1000);
         return key;
     }
 }
